@@ -6,6 +6,11 @@ platforms = ["osx-arm64"]
 version = "0.1.0"
 
 [tasks]
+process = "python scripts/clean_book.py data/raw/book.txt data/processed/book.txt" 
+analyze = { cmd = "python scripts/count_words.py data/processed/book.txt analyzed/word_counts.csv", depends-on = ["process"] }
+plot = { cmd = "python scripts/plot_counts.py analyzed/word_counts.csv results/histogram.pdf", depends-on = ["analyze"] }
+all = [{ task = "process" }, { task = "analyze" }, { task = "plot" }]
+clean = "rm -f data/processed/*.txt analyzed/*.csv results/*.pdf"
 
 [dependencies]
 python = ">=3.13.7,<3.14"
