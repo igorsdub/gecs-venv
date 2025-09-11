@@ -50,7 +50,25 @@ python plot_histogram.py analyzed/word_count.csv results/histogram.pdf
 
 The word count histogram, `histogram.pdf`, can be found in `results` folder.
 
-For 
+For running each of the steps using Pixi tasks execute the following:
+
+```bash
+pixi run process
+pixi run analyze
+pixi run plot
+```
+
+In order to run all of these tasks together, use a convieniet task that combines the above together:
+
+```bash
+pixi run all
+```
+
+You might wish to clean the folders before you do so with
+
+```bash
+pixi run clean
+```
 
 ## Contributing
 
