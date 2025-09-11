@@ -1,0 +1,10 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+analyzed/*
+data/processed/*
+results/*
+!analyzed/.gitkeep
+!data/processed/.gitkeep
+!results/.gitkeep
