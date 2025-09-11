@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from countwords import load_word_counts
+from scripts.count_words import load_word_counts
 import sys
 
 def top_two_word(counts):

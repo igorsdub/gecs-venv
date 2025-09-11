@@ -8,7 +8,7 @@ try:
 except ImportError:
     from collections import Sequence
 
-from countwords import load_word_counts
+from scripts.count_words import load_word_counts
 
 
 def plot_word_counts(counts, limit=10):
