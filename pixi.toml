@@ -1,5 +1,5 @@
 [workspace]
-authors = ["Igors Dubanevics <26872977+igorsdub@users.noreply.github.com>"]
+authors = ["SIDR"]
 channels = ["conda-forge"]
 name = "gecs-01-virtualenv"
 platforms = ["osx-arm64"]
