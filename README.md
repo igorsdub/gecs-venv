@@ -83,4 +83,7 @@ Please make sure to update tests as appropriate. To be added...
 
 ## References
 
-1. [Make a README](https://www.makeareadme.com/).
+1. [AY2025_T1_GECS_Session01_VirtualEnvAndProjectTemplate](https://docs.google.com/presentation/d/1ibLj6rD1ChZBS5Bze_0ej7ZD4ASjWr5mLCBI7scfi48/edit?usp=sharing)
+2. [Make a README](https://www.makeareadme.com/)
+3. [Pixi](https://pixi.sh)
+4. [The Project Gutenberg](https://www.gutenberg.org/)
