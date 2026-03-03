@@ -6,6 +6,12 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 version = "0.1.0"
 
 [tasks]
+summarize = "python scripts/get_summary.py books/dracula.txt"
+count = "python scripts/count_words.py books/dracula.txt counts/dracula.tsv"
+plot = { cmd = "python scripts/plot_counts.py counts/dracula.tsv figures/dracula.html", depends-on = ["count"] }
+all = [{task = "summarize"}, {task = "count"}, {task = "plot"}]
+clean = "rm -f counts/*.tsv figures/*.html"
+
 
 [dependencies]
 python = ">=3.14.3,<3.15"
