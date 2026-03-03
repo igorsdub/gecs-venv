@@ -86,9 +86,14 @@ def plot_word_counts(input_filename, output_filename):
     # Add bar chart
     p.vbar(x=words, top=counts, width=0.8, color="steelblue")
 
-    # Customize
+    # Customize with scaled fonts (1.2x)
+    p.title.text_font_size = "14pt"
     p.xaxis.axis_label = "Word"
+    p.xaxis.axis_label_text_font_size = "12pt"
+    p.xaxis.major_label_text_font_size = "12pt"
     p.yaxis.axis_label = "Count"
+    p.yaxis.axis_label_text_font_size = "12pt"
+    p.yaxis.major_label_text_font_size = "12pt"
     p.xaxis.major_label_orientation = 0.785  # 45 degrees
 
     # Add hover tool
