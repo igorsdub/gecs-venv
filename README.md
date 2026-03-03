@@ -32,6 +32,12 @@ To install required packages use Pixi:
 pixi install
 ```
 
+Next, activate the virtual environment shell (similar to `conda activate`) so you can access packages and programmes you have installed with Pixi:
+
+```bash
+pixi shell
+```
+
 ## Usage
 
 First, you can get a summary of the books available:
