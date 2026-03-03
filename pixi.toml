@@ -1,0 +1,12 @@
+[workspace]
+authors = ["Igors Dubanevics <26872977+igorsdub@users.noreply.github.com>"]
+channels = ["conda-forge"]
+name = "gecs"
+platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.14.3,<3.15"
+bokeh = ">=3.8.2,<4"
