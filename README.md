@@ -1,89 +1,127 @@
-# Good Enough Computing in Science (GECS) | Tutorial 1 | Virtual environments
+# Zipf Law Visualization with Command Line
 
-A tutorial on use of virtual environments using [Pixi](https://pixi.sh) for reproducible research projects. Using [The Odyssey by Homer](https://www.gutenberg.org/cache/epub/1727/pg1727.txt) from [The Project Gutenberg](https://www.gutenberg.org/) we will perform a simple data analysis pipeline on the book's text.
+> Title should be concise and descriptive, followed by a short description of what the project does. Think of some one who stumbles upon your project and wants to quickly understand its purpose.
 
-## Organization
+Project to visualize Zipf's Law using command line tools. We will use books from [Research Software Engineering with Pyhton](https://figshare.com/articles/dataset/Research_Software_Engineering_with_Python_Data_Files/13040516) to demonstrate the frequency of word usage in English literature.
 
-```text
-├── LICENSE                 <- Open-source license
-├── README.md               <- The top-level README for researchers using this project.
-├── pixi.toml               <- Project's virtual environment configuration file with package metadata.
-├── pixi.lock               <- Project's vrtual environemnt lockfile.
-├── data
-│   ├── processed           <- The final, canonical data sets for analysis.
-│   └── raw                 <- The original, immutable data dump.
-│       └── book.txt        <- A raw book text.
-│
-├── analyzed                <- Processed data that has been analyzed.
-│  
-├── scripts                 
-│   ├── clean_book.py       <- Removes Project Gutenberg headers/footers from a text file.
-│   ├── count_words.py      <- Counts word frequencies in the clean text and saves as CSV.
-│   └── plot_counts.py      <- Plots histogram of word counts from CSV.
-│
-└── results                 <- Generated word count histogram by the scripts from the raw data.
-```
+## Project Structure
 
-## Installation
-
-Use the package manager [pixi](https://pixi.sh) to install the virtual enviroemnet for this project.
+> Briefly describe the structure of your project, including important directories and files.
 
 ```bash
-pixi install
+.
+├── books                           <-- Text files of books used for analysis
+│   ├── dracula.txt
+│   ├── frankenstein.txt
+│   ├── jane_eyre.txt
+│   ├── moby_dick.txt
+│   ├── README.md                   <-- README for the book files
+│   ├── sense_and_sensibility.txt
+│   ├── sherlock_holmes.txt
+│   └── time_machine.txt
+├── counts                          <-- Word count .tsv data
+├── figures                         <-- Bar plots of word counts
+├── README.md                       <-- README for the project
+└── scripts                         <-- Scripts directory
+    ├── count_words.sh              <-- Counts occurences of word in a books
+    ├── get_summary.sh              <-- Gets a book summary
+    └── plot_counts.sh              <-- Plots count histogram in terminal window
+```
+
+## Prerequisites
+
+> Before running any code, list any prerequisites that need to be installed or configured.
+
+You will use [YouPlot](https://github.com/red-data-tools/YouPlot), a command line plotting tool. Make sure you have it installed. You can delete it after the tutroial if you wish.
+
+![YouPlot bar plot](https://user-images.githubusercontent.com/5798442/101999903-d36a2d00-3d24-11eb-9361-b89116f44122.png)
+
+For macOS, you can install YouPlot using [Homebrew](https://brew.sh):
+
+```bash
+brew install youplot
+```
+
+For Linux or WSL you will need to enter your password:
+
+```bash
+sudo apt-get install youplot
 ```
 
 ## Usage
 
-To execute the project pipeline via command-line interface (CLI), first active the virtual environement shell
+> Provide step-by-step instructions on how to use the project. Overexplaining is better then underexplaining. The future you will be thankful 😊.
+
+First, you can get a summary of the books available:
 
 ```bash
-pixi shell
+bash scripts/get_summary.sh books/dracula.txt
 ```
 
-Next, run the following commands in the given order:
+The main workflow consists of counting the words in a book and then plotting the results.
+
+```mermaid
+flowchart LR
+    Book --> Counts --> Plot
+```
+
+>[!TIP]
+> For more diagrams like this, check out [Mermaid](https://mermaid-js.github.io/mermaid/#/) and [a GitHub tuttorial](https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/).
+
+Run the following command to generate a list of word counts:
 
 ```bash
-python clean_book.py data/raw/book.txt data/processed/book.txt
-python count_words.py data/processed/book.txt analyzed/word_count.csv
-python plot_histogram.py analyzed/word_count.csv results/histogram.pdf
+bash scripts/count_words.sh books/dracula.txt > counts/dracula.tsv
 ```
+>[!TIP]
+> You can use `.tsv` (Tab-Separated Values) file format when storing and handling tabular data. It’s a simple, plain-text file format, where information is organized in rows and columns, and tabs are used as separators. Compared to `.csv`, `.tsv` files avoid many issues related to commas appearing inside data values.
 
-The word count histogram, `histogram.pdf`, can be found in `results` folder.
-
-For running each of the steps using [Pixi tasks](https://pixi.sh/latest/workspace/advanced_tasks) execute the following:
+Finally, you can plot the results using YouPlot:
 
 ```bash
-pixi run process
-pixi run analyze
-pixi run plot
+bash scripts/plot_counts.sh counts/dracula.tsv 2> figures/dracula.plot
 ```
 
-In order to run all of these tasks together, use a convieniet task that combines the above together:
+> [!NOTE]
+> We are using `2>` to redirect the standard error output to a file because YouPlot writes plots to standard error by default. You can learn about `STDOUT` and `STDERR` [here](https://en.wikipedia.org/wiki/Standard_streams).
+
+To access the plots, open the file in directory as a text file or print it to the terminal:
 
 ```bash
-pixi run all
+cat figures/dracula.plot
 ```
 
-You might wish to clean the folders before you do so with
-
-```bash
-pixi run clean
-```
+Now, you can try to do the same for other books in the `books/` directory! Later on we will see how to automate this process for all books.
 
 ## Contributing
+
+> This section is appropriate for open source projects hosted online, such as on GitHub.
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-Please make sure to update tests as appropriate. To be added...
+Please make sure to update tests as appropriate.
 
 ## License
+
+> It is good practice to include a license for open source projects.
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## References
 
-1. [AY2025_T1_GECS_Session01_VirtualEnvAndProjectTemplate](https://docs.google.com/presentation/d/1ibLj6rD1ChZBS5Bze_0ej7ZD4ASjWr5mLCBI7scfi48/edit?usp=sharing)
-2. [Make a README](https://www.makeareadme.com/)
-3. [Pixi](https://pixi.sh)
-4. [The Project Gutenberg](https://www.gutenberg.org/)
+> Put references here for proper attribution and further reading.
+
+- [Research Software Engineering with Python Data Files](https://figshare.com/articles/dataset/Research_Software_Engineering_with_Python_Data_Files/13040516)
+- [YouPlot](https://github.com/red-data-tools/YouPlot)
+- [Markdown Notice Blocks](https://www.freecodecamp.org/news/how-to-create-notice-blocks-in-markdown/)
+
+## Why README?
+
+> Because no one can read your mind (yet)
+>
+> [Make a README](https://www.makeareadme.com/)
+
+If there's one file you should always include with your project, it's a README. A good README helps others understand what your project is about, how to use it, and how to contribute. It also serves as a reference for you in the future when you come back to the project after some time away. See [Make a README](https://www.makeareadme.com/) for more information.
+
+*This README used the [Make a README template](https://www.makeareadme.com/#template-1).*
