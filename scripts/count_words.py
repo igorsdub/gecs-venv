@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 This script counts the number of individual words in a given file.
 Usage: python scripts/count_words.py <input_file> <output_file>

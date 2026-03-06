@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 This script extracts summary information from the header of a given file.
 Usage: python scripts/get_summary.py <filename>

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Plots word counts as an interactive bar chart using Bokeh.
 Usage: python scripts/plot_counts.py <input_file> <output_file>
