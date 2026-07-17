@@ -2,6 +2,10 @@
 
 Project to visualize Zipf's Law using Python. We will use books from [Research Software Engineering with Python](https://figshare.com/articles/dataset/Research_Software_Engineering_with_Python_Data_Files/13040516) to demonstrate the frequency of word usage in English literature.
 
+Zipf's law is a simple pattern that often appears in language: a small number of words are used very often, while most words are used rarely. In a book, words like "the", "and", and "of" usually dominate the top of the frequency table, and the counts then drop off quickly.
+
+This project makes that pattern visible by counting words in a text and plotting the most frequent ones as a histogram.
+
 ```mermaid
 flowchart LR
     Book["Book (.txt)"] --> Words["Words"]
