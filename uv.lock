@@ -61,10 +61,14 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "bokeh" },
+    { name = "pillow" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "bokeh" }]
+requires-dist = [
+    { name = "bokeh" },
+    { name = "pillow" },
+]
 
 [[package]]
 name = "jinja2"
