@@ -1,7 +1,3 @@
-# pixi environments
-.pixi/*
-!.pixi/config.toml
-
 # Project directories
 analyzed/*
 data/processed/*
@@ -10,6 +6,7 @@ results/*
 !data/processed/.gitkeep
 !results/.gitkeep
 
+.venv/
 __pycache__/
 *.pyc
 *.pyo
