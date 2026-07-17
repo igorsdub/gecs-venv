@@ -1,0 +1,11 @@
+[project]
+name = "gecs-venv"
+version = "0.1.0"
+description = "Zipf law book-analysis example managed with uv"
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "bokeh",
+    "chromedriver-binary==150.*",
+    "selenium",
+]
