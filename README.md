@@ -57,12 +57,6 @@ Activate the environment:
 source .venv/bin/activate
 ```
 
-When you are done, leave the environment with:
-
-```bash
-deactivate
-```
-
 ## Usage
 
 To run the whole pipeline for one book:
@@ -104,7 +98,7 @@ This produces:
 
 Open the generated HTML file in your web browser to view the interactive bar chart. Either use **Show Preview** by right-clicking on the figure file in VS Code or open the file in your file browser, e.g. Finder, as a regular file. The PNG file gives you a quick static version of the same result.
 
-Now, you can try to do the same for other books in the `books/` directory! Later on we will see how to automate this process for all books.
+Now, you can try to do the same for other books in the `books/` directory! Later on we will see how to automate this process for all books using GNU make.
 
 ## Contributing
 
