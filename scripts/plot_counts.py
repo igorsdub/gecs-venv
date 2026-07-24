@@ -5,16 +5,9 @@ Example: python scripts/plot_counts.py counts/dracula.tsv figures/dracula.html
 """
 
 from pathlib import Path
-from contextlib import contextmanager
-import os
 import sys
-import tempfile
-import textwrap
-from bokeh.io import export_png
-import bokeh.io.export as bokeh_export
-from bokeh.plotting import figure, save, output_file
-from bokeh.models import HoverTool
-import chromedriver_binary  # noqa: F401
+
+import altair as alt
 
 
 def parse_counts_file(filename):
@@ -65,36 +58,9 @@ def make_png_filename(output_html_filename):
     return str(Path(output_html_filename).with_suffix(".png"))
 
 
-@contextmanager
-def writable_bokeh_tmp_html(tmp_dir):
-    """Mirror Bokeh's temp HTML helper, but use a writable temp directory."""
-    tmp = tempfile.NamedTemporaryFile(
-        mode="wb",
-        dir=tmp_dir,
-        prefix="bokeh",
-        suffix=".html",
-        delete=False,
-    )
-    try:
-        yield tmp
-    finally:
-        os.unlink(tmp.name)
-
-
-def export_png_with_writable_tmp(plot, output_png_filename):
-    """Use Bokeh's export_png() with a writable temp directory."""
-    original_tmp_html = bokeh_export._tmp_html
-    tmp_dir = tempfile.gettempdir()
-    bokeh_export._tmp_html = lambda: writable_bokeh_tmp_html(tmp_dir)
-    try:
-        export_png(plot, filename=output_png_filename)
-    finally:
-        bokeh_export._tmp_html = original_tmp_html
-
-
 def plot_word_counts(input_filename, output_filename):
     """
-    Create an interactive Bokeh bar chart of word counts.
+    Create an interactive Altair bar chart of word counts.
 
     Args:
         input_filename: Path to the counts file
@@ -113,55 +79,22 @@ def plot_word_counts(input_filename, output_filename):
     output_path = Path(output_filename)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Set up output file
-    output_file(output_filename)
-
-    # Create figure
-    p = figure(
-        x_range=words,
-        title="Word Counts",
-        width=1000,
-        height=600,
-        toolbar_location="right",
+    data = [{"word": word, "count": count} for word, count in zip(words, counts)]
+    chart = (
+        alt.Chart(alt.Data(values=data))
+        .mark_bar(color="steelblue")
+        .encode(
+            x=alt.X("word:N", title="Word", sort=None),
+            y=alt.Y("count:Q", title="Count"),
+            tooltip=[alt.Tooltip("word:N", title="Word"), alt.Tooltip("count:Q", title="Count")],
+        )
+        .properties(title="Word Counts", width=1000, height=600)
+        .configure_axis(labelFontSize=14, titleFontSize=14, labelAngle=-45)
     )
 
-    # Add bar chart
-    p.vbar(x=words, top=counts, width=0.8, color="steelblue")
-
-    # Customize with scaled fonts (1.2x)
-    p.title.text_font_size = "14pt"
-    p.xaxis.axis_label = "Word"
-    p.xaxis.axis_label_text_font_size = "12pt"
-    p.xaxis.major_label_text_font_size = "12pt"
-    p.yaxis.axis_label = "Count"
-    p.yaxis.axis_label_text_font_size = "12pt"
-    p.yaxis.major_label_text_font_size = "12pt"
-    p.xaxis.major_label_orientation = 0.785  # 45 degrees
-
-    # Add hover tool
-    hover = HoverTool(tooltips=[("Word", "@x"), ("Count", "@top")])
-    p.add_tools(hover)
-
-    # Save HTML output
-    save(p)
+    chart.save(str(output_path))
     output_png_filename = make_png_filename(output_filename)
-
-    try:
-        export_png_with_writable_tmp(p, output_png_filename)
-    except Exception as exc:
-        message = textwrap.dedent(
-            f"""
-            PNG export failed.
-
-            Bokeh's export_png() requires Selenium and a compatible browser driver,
-            plus Chrome/Chromium or Firefox on the system.
-
-            Original error:
-            {exc}
-            """
-        ).strip()
-        print(message, file=sys.stderr)
-        raise SystemExit(1) from exc
+    chart.save(output_png_filename)
 
     print(f"Plot saved to {output_filename}")
     print(f"Histogram saved to {output_png_filename}")
